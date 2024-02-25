@@ -1,0 +1,66 @@
+package test.analizadores;
+import Errores.Error_;
+import test.Test;
+import java_cup.runtime.*;
+
+parser code 
+{:
+    public void syntax_error(Symbol s){
+        //System.out.println("Error sintáctico: "+s.value+" linea: "+s.left+" columna: "+s.right);
+        Error_ miError = new Error_(s.left,s.right,s.value.toString(),false);
+        Test.lista_errores.add(miError);
+}
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+       // System.out.println("Error sintáctico unrecovered: "+s.value+" linea: "+s.left+" columna: "+s.right);
+        Error_ miError = new Error_(s.left,s.right,s.value.toString(),false);
+        Test.lista_errores.add(miError);    
+}
+:}
+
+terminal String ADD,MINUS,TIMES,DIV;
+terminal String ENTERO,DECIMAL;
+
+non terminal list;
+non terminal Double expresion;
+
+precedence left ADD,MINUS;
+precedence left TIMES,DIV;
+
+start with list;
+
+// https://www2.cs.tum.edu/projects/cup/docs.php#errors
+/*
+    Gramática LALR
+*/
+list ::= list expresion  
+        | expresion:n1        {:System.out.println(n1);:}
+;
+expresion ::= expresion:n1 ADD expresion:n2           {:RESULT =n1 + n2;:}
+            | expresion:n1 MINUS expresion:n2         {:RESULT =n1 - n2;:}
+            | expresion:n1 TIMES expresion:n2         {:RESULT =n1 * n2;:}
+            | expresion:n1 DIV expresion:n2     {:RESULT = n1 / n2;  :}
+            | ENTERO:ent                   {:RESULT = Double.valueOf(ent);:} 
+            | DECIMAL:dec                   {:RESULT = Double.valueOf(dec);:} 
+;
+/*
+    Gramática LL
+*/
+/*
+inicio ::= factor:num inicio2:num2   {:RESULT = num + num2; System.out.println(RESULT);:}
+;
+inicio2 ::=   ADD factor:num inicio2:num2    {:RESULT = num + num2;:}
+            | MINUS factor:num inicio2:num2  {:RESULT = -(num + num2);:}
+            |                    {:RESULT = 0.0;:}
+;
+
+factor ::=   final:num factor2:num2  {:RESULT = num *num2; :}
+;
+factor2 ::=   TIMES final:num factor2:num2 {:RESULT = num * num2 ; :}
+                     
+            | DIV final:num  factor2:num2  {:RESULT = 1/(num * num2);:}
+            |                 {:RESULT = 1.0;:}
+;
+
+final ::=   ENTERO:ent      {:RESULT = Double.valueOf(ent);:}
+            | DECIMAL:dec   {:RESULT = Double.valueOf(dec);:}
+*/
