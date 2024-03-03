@@ -1,0 +1,44 @@
+%{
+    // Área para añadir código de java
+    // Importar librerías
+%}
+
+%lex // Inicia parte léxica
+
+%options case-insensitive
+
+%%
+
+\s+                                 //ignora espacios
+
+// Comentarios son con //
+
+[0-9]+("."[0-9]+)\b     return 'DOUBLE';
+[0-9]+\b                return 'NUMBER';
+
+([a-zA-z])[a-zA-Z0-9_]* return 'ID';
+
+"+"                     return 'MAS';
+
+<<EOF>>                 return 'EOF';
+
+.					   {
+    console.log(yylloc.first_line, yylloc.first_column,'Lexico',yytext);
+                        }
+
+// Finaliza parte de Léxica
+/lex
+
+// precedencia
+%right 'INTEDER'
+%left 'OR'
+
+// Inicio de gramática
+%start ini
+
+// Parte sintáctica  - Definición de la gramática
+%%
+
+ini : instrucciones EOF { return $2}
+;
+

@@ -1,0 +1,17 @@
+{
+  "name": "Clase 7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "jison": "jison Gramatica\\gramatica.jison >> Gramatica\\gramatica.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jison": "0.4.18"
+  }
+}
