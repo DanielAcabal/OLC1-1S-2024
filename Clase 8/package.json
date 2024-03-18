@@ -1,0 +1,22 @@
+{
+  "name": "Clase 8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node ./dist/index.js",
+    "dev": "tsc-watch --OnSuccess \"node ./dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jison": "0.4.18",
+    "tsc-watch": "^6.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.25",
+    "typescript": "^5.4.2"
+  }
+}
