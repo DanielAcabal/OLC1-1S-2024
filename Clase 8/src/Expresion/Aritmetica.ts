@@ -20,7 +20,17 @@ export class Aritmetica extends Expresion{
         // Lógica del intérprete
         // Comparamos el tipo de operación
         if (this.Operacion == OpAritmetica.SUMA){
-            return {valor: resultadoIzq.valor+resultadoDer.valor,tipo:TipoDato.NUMBER}
+            // Valor dominante
+           const dominante = SUMAS[resultadoIzq.tipo][resultadoDer.tipo] 
+           if (dominante == TipoDato.NULO){
+             
+             throw Error("tipo dato no valido")
+           }
+           if (dominante == TipoDato.NUMBER  || TipoDato.DOUBLE == dominante){
+           if(resultadoIzq.tipo == TipoDato.BOOLEANO) resultadoIzq.valor = resultadoIzq.valor?1:0
+           if(resultadoDer.tipo == TipoDato.BOOLEANO) resultadoDer.valor = resultadoDer.valor?1:0
+           }
+            return {valor: resultadoIzq.valor+resultadoDer.valor,tipo:dominante}
         } else if (this.Operacion == OpAritmetica.RESTA){
             return {valor: resultadoIzq.valor-resultadoDer.valor,tipo:TipoDato.NUMBER}
         } else if (this.Operacion == OpAritmetica.PRODUCTO){
@@ -31,3 +41,10 @@ export class Aritmetica extends Expresion{
         return {valor:null,tipo:TipoDato.NULO}
     }
 }
+const SUMAS = [
+    [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NUMBER ,TipoDato.NUMBER ,TipoDato.STRING ],
+    [TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.STRING ],
+    [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.STRING ],
+    [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.STRING ,TipoDato.STRING ],
+    [TipoDato.STRING ,TipoDato.STRING ,TipoDato.STRING ,TipoDato.STRING ,TipoDato.STRING ],
+]

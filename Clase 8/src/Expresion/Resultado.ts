@@ -5,9 +5,12 @@ export type Resultado = {
 }
 
 export enum TipoDato{
-    NUMBER,
-    DOUBLE,
-    NULO
+    NUMBER = 0,
+    DOUBLE = 1,
+    BOOLEANO = 2,
+    CHAR = 3,
+    STRING = 4,
+    NULO,
 }
 export enum OpAritmetica{
     SUMA, RESTA, PRODUCTO,DIVISION

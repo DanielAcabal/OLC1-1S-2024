@@ -18,7 +18,12 @@ export class Primitivo extends Expresion{
             //Convertimos el tipo para que al ejecutar el valor ya tenga el tipo correcto
             //con this.tipo no nos preocupamos en verificar si es number o double
             return {valor:Number(this.exp1), tipo:this.tipo}
+        }else if(TipoDato.BOOLEANO == this.tipo) {
+            return {valor:this.exp1.toLowerCase()=="true"?true:false, tipo:this.tipo}
+        }else if(TipoDato.STRING == this.tipo) {
+            return {valor:this.exp1.toString(), tipo:this.tipo}
         }
+
         // en caso que no sea ninguno
         return {valor:null,tipo:TipoDato.NULO}
     }
