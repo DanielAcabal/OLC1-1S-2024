@@ -24,8 +24,6 @@ app.use(express.json())
 
 app.post('/interpretar', (req:Request, res:Response) => {
   const contenido = req.body.contenido
-  console.log(req)
-  console.log({contenido})
   const interpretado = interprete(contenido)
   res.json({resultado:interpretado})
 })

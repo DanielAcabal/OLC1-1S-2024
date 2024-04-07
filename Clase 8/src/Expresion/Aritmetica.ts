@@ -23,20 +23,38 @@ export class Aritmetica extends Expresion{
             // Valor dominante
            const dominante = SUMAS[resultadoIzq.tipo][resultadoDer.tipo] 
            if (dominante == TipoDato.NULO){
-             
              throw Error("tipo dato no valido")
            }
            if (dominante == TipoDato.NUMBER  || TipoDato.DOUBLE == dominante){
+
            if(resultadoIzq.tipo == TipoDato.BOOLEANO) resultadoIzq.valor = resultadoIzq.valor?1:0
            if(resultadoDer.tipo == TipoDato.BOOLEANO) resultadoDer.valor = resultadoDer.valor?1:0
+
+           }else if (dominante == TipoDato.STRING){
+            return {valor: resultadoIzq.valor.toString()+resultadoDer.valor.toString(),tipo:dominante}
            }
+           // Operacion
             return {valor: resultadoIzq.valor+resultadoDer.valor,tipo:dominante}
+
         } else if (this.Operacion == OpAritmetica.RESTA){
-            return {valor: resultadoIzq.valor-resultadoDer.valor,tipo:TipoDato.NUMBER}
+           const dominante = RESTAS[resultadoIzq.tipo][resultadoDer.tipo] 
+           if (dominante == TipoDato.NULO){
+             throw Error("tipo dato no valido")
+           }
+            return {valor: resultadoIzq.valor-resultadoDer.valor,tipo:dominante}
+
         } else if (this.Operacion == OpAritmetica.PRODUCTO){
-            return {valor: resultadoIzq.valor*resultadoDer.valor,tipo:TipoDato.NUMBER}
+           const dominante = PRODUCTO[resultadoIzq.tipo][resultadoDer.tipo] 
+           if (dominante == TipoDato.NULO){
+             throw Error("tipo dato no valido")
+           }
+            return {valor: resultadoIzq.valor*resultadoDer.valor,tipo:dominante}
         } else if (this.Operacion == OpAritmetica.DIVISION){
-            return {valor: resultadoIzq.valor/resultadoDer.valor,tipo:TipoDato.NUMBER}
+           const dominante = DIVISION[resultadoIzq.tipo][resultadoDer.tipo] 
+           if (dominante == TipoDato.NULO){
+             throw Error("tipo dato no valido")
+           }
+            return {valor: resultadoIzq.valor/resultadoDer.valor,tipo:dominante}
         }
         return {valor:null,tipo:TipoDato.NULO}
     }
@@ -47,4 +65,28 @@ const SUMAS = [
     [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.STRING ],
     [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.STRING ,TipoDato.STRING ],
     [TipoDato.STRING ,TipoDato.STRING ,TipoDato.STRING ,TipoDato.STRING ,TipoDato.STRING ],
+]
+
+const RESTAS = [
+    [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NUMBER ,TipoDato.NUMBER ,TipoDato.NULO ],
+    [TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.NULO ],
+    [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
+    [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
+    [TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
+]
+
+const PRODUCTO = [
+    [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.NUMBER ,TipoDato.NULO ],
+    [TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.DOUBLE ,TipoDato.NULO ],
+    [TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
+    [TipoDato.NUMBER ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
+    [TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
+]
+
+const DIVISION = [
+    [TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.DOUBLE ,TipoDato.NULO ],
+    [TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.DOUBLE ,TipoDato.NULO ],
+    [TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
+    [TipoDato.DOUBLE ,TipoDato.DOUBLE ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
+    [TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ,TipoDato.NULO ],
 ]

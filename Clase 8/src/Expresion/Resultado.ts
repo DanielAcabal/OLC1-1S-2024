@@ -12,6 +12,15 @@ export enum TipoDato{
     STRING = 4,
     NULO,
 }
+
 export enum OpAritmetica{
     SUMA, RESTA, PRODUCTO,DIVISION
+}
+
+export enum OpRelacional{
+    IGUAL,DISTINTO,MENOR,MENORIGUAL,MAYOR,MAYORIGUAL
+}
+
+export enum OpLogico{
+    AND,OR,NOT
 }
