@@ -4,10 +4,15 @@
     const {Relacional} = require("../dist/src/Expresion/Relacionales");
     const {Logico} = require("../dist/src/Expresion/Logicos");
     const {Primitivo} = require("../dist/src/Expresion/Primitivo");
+    const {Acceso} = require("../dist/src/Expresion/Acceso");
     const {OpAritmetica,OpRelacional,OpLogico,TipoDato} = require("../dist/src/Expresion/Resultado");
     const {Print} = require("../dist/src/Instruccion/Print");
     const {Bloque} = require("../dist/src/Instruccion/Bloque");
+    const {Asignacion} = require("../dist/src/Instruccion/Asignacion");
     const {FN_IF} = require("../dist/src/Instruccion/Control/IF");
+    const {Break} = require("../dist/src/Instruccion/Control/Break");
+    const {CWhile} = require("../dist/src/Instruccion/Ciclos/While");
+    const {Declaracion} = require("../dist/src/Instruccion/Definiciones/Declaracion");
     const {AST} = require("../dist/src/AST");
 %}
 
@@ -29,6 +34,13 @@
 "println"               return 'PRINTLN';
 "true"                  return 'TRUE';
 "false"                 return 'FALSE';
+"number"                return 'TNUMBER';
+"string"                return 'TSTRING';
+"char"                  return 'TCHAR';
+"bool"                  return 'TBOOL';
+"double"                return 'TDOUBLE';
+"while"                 return 'WHILE';
+"break"                 return 'BREAK';
 //Instrucciones de control
 "if"                    return 'IF';
 "else"                  return 'ELSE';
@@ -92,6 +104,10 @@ instrucciones: instrucciones instruccion    {  $1.push($2); $$ = $1;}
 
 instruccion: EXEC expresion PYC         { $$ =  $2;}
             | fn_print PYC               { $$ = $1;}
+            | declaracion PYC           { $$ = $1;}
+            | ciclo_while PYC           { $$ = $1;}
+            | asignacion PYC           { $$ = $1;}
+            | inst_break PYC           { $$ = $1;}
             | fn_if                     { $$ = $1;}
 ;
 // Para sitetisar un dato, se utiliza $$
@@ -107,6 +123,7 @@ expresion: RES expresion %prec UMINUS   { $$ = new Aritmetica(new Primitivo(0,0,
         | TRUE                        { $$ =  new Primitivo($1,TipoDato.BOOLEANO,0,0); }
         | FALSE                        { $$ =  new Primitivo($1,TipoDato.BOOLEANO,0,0); }
         | CADENA                        { $$ =  new Primitivo($1,TipoDato.STRING,0,0); }
+        | ID                            { $$ = new Acceso($1, @1.first_line, @1.first_column);}
         | PARIZQ expresion PARDER        { $$ = $2;}
 ;
 
@@ -138,4 +155,27 @@ fn_if
         : IF PARIZQ expresion PARDER bloque     { $$ = new FN_IF($3,$5,null,0,0);}
         | IF PARIZQ expresion PARDER bloque ELSE bloque     { $$ = new FN_IF($3,$5,$7,0,0);}
         | IF PARIZQ expresion PARDER bloque ELSE fn_if     { $$ = new FN_IF($3,$5,$7,0,0);}
+;
+// Tipos
+tipos
+        : TNUMBER                       {$$ = TipoDato.NUMBER }
+        | TDOUBLE                       {$$ = TipoDato.DOUBLE}
+        | TSTRING                       {$$= TipoDato.STRING}
+        | TBOOL                         {$$ = TipoDato.BOOLEANO}
+        | TCHAR                         { $$ = TipoDato.CHAR}
+;
+
+// Declaracion
+declaracion
+        : tipos ID ASIGNACION expresion            {$$= new Declaracion($1,$2,$4,0,0);}
+;
+
+asignacion 
+        : ID ASIGNACION expresion               {$$ = new Asignacion($1,$3,@1.first_line,@1.first_column)}
+;
+ciclo_while
+        : WHILE PARIZQ expresion PARDER bloque    {$$ = new CWhile($3,$5, @1.first_line, @1.first_column)} 
+;
+inst_break
+        : BREAK                                {$$ = new Break(@1.first_line,@1.first_column)}
 ;

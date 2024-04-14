@@ -1,3 +1,4 @@
+import { Contexto } from "../Contexto/TablaSimbolo";
 
 export abstract class  Instruccion{
     public line: number;
@@ -8,6 +9,6 @@ export abstract class  Instruccion{
         this.column = colum;
     }
     // Método que siempre debe ejecutarse en todos los objetos que hereda
-    public abstract interpretar(consola:string[]):null
+    public abstract interpretar(contexto:Contexto,consola:string[]):null | string
         
  }

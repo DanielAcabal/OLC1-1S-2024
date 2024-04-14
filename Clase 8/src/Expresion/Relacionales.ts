@@ -1,3 +1,4 @@
+import { Contexto } from "../Contexto/TablaSimbolo";
 import { Expresion } from "./Expresion";
 import { OpRelacional, Resultado, TipoDato } from "./Resultado";
 
@@ -14,9 +15,9 @@ export class Relacional extends Expresion{
         this.exp2 = e2
     }
  
-    public interpretar(): Resultado {
-        const resultado1 = this.exp1.interpretar()
-        const resultado2 = this.exp2.interpretar()
+    public interpretar(contexto:Contexto): Resultado {
+        const resultado1 = this.exp1.interpretar(contexto)
+        const resultado2 = this.exp2.interpretar(contexto)
         console.log(resultado1,resultado2) 
         if(resultado1.tipo==TipoDato.NULO || resultado2.tipo==TipoDato.NULO){
             throw Error("Tipo de dato no se puede comparar")

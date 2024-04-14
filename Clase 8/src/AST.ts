@@ -1,18 +1,21 @@
+import { Contexto } from "./Contexto/TablaSimbolo";
 import { Expresion } from "./Expresion/Expresion";
 import { Instruccion } from "./Instruccion/Instruccion";
 
 export class AST {
     public instrucciones: Instruccion[]
     public consola:string[]
+    public contextoGlobal: Contexto
     constructor(instrucciones: Instruccion[]){
         this.instrucciones = instrucciones
         this.consola = []
+        this.contextoGlobal = new Contexto(null)
     }
 
     public Ejecutar(){
        // Primera pasada
        this.instrucciones.forEach(instruccion => {
-            instruccion.interpretar(this.consola)
+            instruccion.interpretar(this.contextoGlobal,this.consola)
        });
     }
     public getConsola(){

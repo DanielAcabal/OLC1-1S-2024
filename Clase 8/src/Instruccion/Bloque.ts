@@ -1,3 +1,4 @@
+import { Contexto } from "../Contexto/TablaSimbolo";
 import { Instruccion } from "./Instruccion";
 
 export class Bloque extends Instruccion{
@@ -8,10 +9,13 @@ export class Bloque extends Instruccion{
         this.instrucciones = instrucciones
     }
 
-    public interpretar(consola: string[]): null {
-        this.instrucciones.forEach(instruccion => {
-            instruccion.interpretar(consola)
-       });
+    public interpretar(contexto:Contexto,consola: string[]): null | string {
+        const nuevoContexto = new Contexto(contexto)
+        for (const instruccion of this.instrucciones) {
+            const retorno = instruccion.interpretar(nuevoContexto,consola)
+            console.log({retorno})
+            if(retorno)  return retorno
+        }
        return null;
     }
 }
