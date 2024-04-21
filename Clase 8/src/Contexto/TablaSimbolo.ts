@@ -20,7 +20,7 @@ export class Contexto {
         throw new Error("La variable ya fue declarada")
     }
 
-    public obtenerVariable(id:string):Simbolo | undefined{
+    public obtenerSimbolo(id:string):Simbolo | undefined{
         let contexto_actual = this as Contexto | null
         while (contexto_actual!=null){
         const existe = contexto_actual.tablaSimbolos.has(id);
@@ -36,5 +36,13 @@ export class Contexto {
 
     public actualizarSimbolo(id:string,valor:Simbolo){
         this.tablaSimbolos.set(id,valor)
+    }
+
+    public obtenerGlobal():Contexto{
+        let contexto = this as Contexto
+        while(contexto.padre!=null){
+            contexto = contexto.padre
+        }
+        return contexto
     }
 }

@@ -6,7 +6,7 @@ import { Instruccion } from "./Instruccion";
 export class Print extends Instruccion{
     private expresion;
     private salto;
-    constructor(expresion:Expresion,salto:string,linea:number,columna:number){
+    constructor(expresion:Expresion,salto:boolean,linea:number,columna:number){
         super(linea,columna)
         this.expresion=expresion
         this.salto = salto

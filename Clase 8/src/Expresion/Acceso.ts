@@ -11,7 +11,7 @@ export class Acceso extends Expresion {
         this.id = id
     }
     public interpretar(contexto:Contexto): Resultado {
-        const simbolo = contexto.obtenerVariable(this.id)
+        const simbolo = contexto.obtenerSimbolo(this.id)
         if(simbolo){
             if (simbolo.tipoSimbolo == tipoSimbolo.VARIABLE){
                 const resultado = simbolo.obtenerValor() as Resultado

@@ -12,10 +12,11 @@ export class Asignacion extends Instruccion{
         this.expresion = expresion
     }
     public interpretar(contexto: Contexto, consola: string[]): null {
-        const simbolo = contexto.obtenerVariable(this.id)
+        const simbolo = contexto.obtenerSimbolo(this.id)
         if (simbolo){
             if (simbolo.tipoSimbolo == tipoSimbolo.VARIABLE){
                 const nuevoValor = this.expresion.interpretar(contexto)
+                if(nuevoValor.tipo!=simbolo.obtenertipoDato()) throw new Error("Tipo de asignación no válida")
                 simbolo.actualizarValor(nuevoValor)
                 contexto.actualizarSimbolo(this.id,simbolo)
                 return null

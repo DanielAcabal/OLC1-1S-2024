@@ -11,6 +11,7 @@ export enum TipoDato{
     CHAR = 3,
     STRING = 4,
     NULO,
+    VOID
 }
 
 export enum OpAritmetica{
